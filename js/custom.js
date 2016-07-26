@@ -5,6 +5,8 @@ function initMap() {
 	    zoom: 12
 	});
 
+	map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+
     // Function for adding a marker to the page.
     function addMarker(location) {
         var marker = new google.maps.Marker({
