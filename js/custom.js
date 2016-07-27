@@ -1,34 +1,37 @@
-function initMap() {
-	var mapDiv = document.getElementById('map');
-	var map = new google.maps.Map(mapDiv, {
-	    center: {lat: 37.789, lng: -122.399},
-	    zoom: 15
-	});
+$(document).ready(function () {
+  initMap();
+});
+// function initMap() {
+// 	var mapDiv = document.getElementById('map');
+// 	var map = new google.maps.Map(mapDiv, {
+// 	    center: {lat: 37.789, lng: -122.399},
+// 	    zoom: 15
+// 	});
 
 	// map.setMapTypeId(google.maps.MapTypeId.);s
 
     // Function for adding a marker to the page.
-    function addMarker(location) {
-        var marker = new google.maps.Marker({
-            position: location,
-            map: map
-        });
+ //    function addMarker(location) {
+ //        var marker = new google.maps.Marker({
+ //            position: location,
+ //            map: map
+ //        });
 
-        return marker;
-    }
+ //        return marker;
+ //    }
 
-    function addInfoWindow(marker, message) {
-    	var location = marker;
-		var infowindow = new google.maps.InfoWindow({
-			content: message
-		});
+ //    function addInfoWindow(marker, message) {
+ //    	var location = marker;
+	// 	var infowindow = new google.maps.InfoWindow({
+	// 		content: message
+	// 	});
 
-		google.maps.event.addListener(marker, "click", function(){
-			infowindow.open(map, marker);
-		});
+	// 	google.maps.event.addListener(marker, "click", function(){
+	// 		infowindow.open(map, marker);
+	// 	});
 
-	}
-
+	// }
+var initMap = function(){
 	var bathRoomData = [
 		{company: "Noodles & Co",
 		status: "Customers Only",
@@ -81,7 +84,14 @@ function initMap() {
 		//second object here
 	]
 
-	var marker;
+    var myLatlng = new google.maps.LatLng(37.785,-122.440);
+      var mapOptions = {
+        zoom: 15,
+        center: {lat: 37.789, lng: -122.399}
+      }
+      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+      var marker;
       var markers = new Array();
 
       for (var i = 0; i < bathRoomData.length; i++) {
@@ -89,12 +99,32 @@ function initMap() {
           position: bathRoomData[i].coordinates,
           title: bathRoomData[i].name,
           map: map
-        });
+      	});
 
         markers.push(marker);
       }
+
+	var setMarkers = function(events){
+      	events.forEach(function(event){
+      		var marker = new google.maps.Marker({
+      			position: {lat: event.lat, lng: event.lng}, 
+      			title: event.name, 
+      			animation: google.maps.Animation.DROP, 
+      			map:map 
+      		});
+      		markers.push(marker);
+      	});
+    }
+	var removeMarkers = function(){
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(null);
+		}
+	markers = [];
 	}
 
+      // To add the marker to the map, call setMap();
+      // marker.setMap(map);
+  }
 
 
 
