@@ -3,12 +3,20 @@
 	height: 400px;
 }
 
+h1 { 
+	font-family: "Audiowide";
+	text-align: center;
+	border-style: double;
+}
+
 body {
 	background-color: black
 }
 
 p {
 	color: white;
+	font-family: Georgia;
+	font-size: 20px;
 }
 
 .display-3 {
