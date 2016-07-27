@@ -34,7 +34,23 @@ function initMap() {
 		status: "private"
 		cleanliness: "unknown",
 		coordinates: {lat: 37.789671, lng: -122.400564}},
-		//second object here
+		{company: "Boudin Bakery",
+		status: "Customers only"
+		cleanliness: "unknown",
+		coordinates: {lat: 37.788803, lng: -122.401672}},
+		{company: "Super Duper Burger",
+		status: "No purchase necessary"
+		cleanliness: "green",
+		coordinates: {lat: 37.786942, lng: -122.404037}},
+		{company: "Oasis Grill",
+		status: "No purchase necessary"
+		cleanliness: "green",
+		coordinates: {lat: 37.786861, lng: -122.403697}},
+		{company: "Macy's",
+		status: "No purchase necessary"
+		cleanliness: "green",
+		coordinates: {lat: 37.786959, lng: -122.405973}},
+		
 	]
 
     // Testing the addMarker function
@@ -50,17 +66,17 @@ function initMap() {
 	var bread = new google.maps.LatLng(37.790398, -122.399244);
 	var breadMarker = addMarker(bread);
 
-	var booty = new google.maps.LatLng(37.788803, -122.401672);
-	var bootyMarker = addMarker(booty);
+	// var booty = new google.maps.LatLng(37.788803, -122.401672);
+	// var bootyMarker = addMarker(booty);
 
-	var supburg = new google.maps.LatLng(37.786942, -122.404037);
-	var supburgMarker = addMarker(supburg);
+	// var supburg = new google.maps.LatLng(37.786942, -122.404037);
+	// var supburgMarker = addMarker(supburg);
 
-	var oasis = new google.maps.LatLng(37.786861, -122.403697);
-	var oasisMarker = addMarker(oasis);
+	// var oasis = new google.maps.LatLng(37.786861, -122.403697);
+	// var oasisMarker = addMarker(oasis);
 
-	var macys = new google.maps.LatLng(37.786959, -122.405973);
-	var macysMarker = addMarker(macys);
+	// var macys = new google.maps.LatLng(37.786959, -122.405973);
+	// var macysMarker = addMarker(macys);
 
 	var port = new google.maps.LatLng(37.789791, -122.401145);
 	var portMarker = addMarker(port);
