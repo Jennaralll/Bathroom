@@ -31,114 +31,71 @@ function initMap() {
 
 	var bathRoomData = [
 		{company: "Noodles & Co",
-		status: "Private"
-		cleanliness: "unknown",
+		status: "Customers Only",
+		cleanliness: "green",
 		coordinates: {lat: 37.789671, lng: -122.400564}},
 		{company: "Boudin Bakery",
-		status: "Customers only"
-		cleanliness: "unknown",
+		status: "Customers Only",
+		cleanliness: "green",
 		coordinates: {lat: 37.788803, lng: -122.401672}},
 		{company: "Super Duper Burger",
-		status: "No purchase necessary"
+		status: "No purchase necessary",
 		cleanliness: "green",
 		coordinates: {lat: 37.786942, lng: -122.404037}},
 		{company: "Oasis Grill",
-		status: "No purchase necessary"
+		status: "No purchase necessary",
 		cleanliness: "green",
 		coordinates: {lat: 37.786861, lng: -122.403697}},
 		{company: "Macy's",
-		status: "No purchase necessary"
+		status: "No purchase necessary",
 		cleanliness: "green",
 		coordinates: {lat: 37.786959, lng: -122.405973}},
-
- //    // Testing the addMarker function
- //    var noodz = new google.maps.LatLng(37.789671, -122.400564);
- //    var noodzMarker = addMarker(noodz);
-
-	// var peetz = new google.maps.LatLng(37.784618, -122.406799);
-	// var peetzMarker = addMarker(peetz);
-
-	// var ghir = new google.maps.LatLng(37.788515, -122.402037);
-	// var ghirMarker = addMarker(ghir);
-
-	// var bread = new google.maps.LatLng(37.790398, -122.399244);
-	// var breadMarker = addMarker(bread);
-
-	// var booty = new google.maps.LatLng(37.788803, -122.401672);
-	// var bootyMarker = addMarker(booty);
-
-		{company: "Portico Restaurant"
-		status: "Private"
+		{company: "Portico Restaurant",
+		status: "Customers Only",
 		cleanliness: "green",
 		coordinates: {lat: 37.789791, lng: -122.401145}},
 		{company: "Old Navy",
-		status: "public"
+		status: "No purchase necessary",
 		cleanliness: "green",
 		coordinates: {lat: 37.785320, lng: -122.405972}},
 		{company: "Ginto Izakaya Japanaise",
-		status: "Public"
+		status: "No purchase necessary",
 		cleanliness: "green",
 		coordinates: {lat: 37.788335, lng: -122.402948}},
 		{company: "Mazarine Coffee",
-		status: "public"
+		status: "No purchase necessary",
 		cleanliness: "green",
 		coordinates: {lat: 37.787601, lng: -122.404064}},
 		{company: "Peet's Coffee and Tea",
-		status: "Customers only",
+		status: "Customers Only",
 		cleanliness: "green", 
 		coordinates: {lat:37.784618, lng:-122.406799}},
 		{company: "Ghiradelli",
-		status: "Customers only",
+		status: "Customers Only",
 		cleanliness: "green", 
 		coordinates: {lat:37.788515, lng:-122.402037}},
 		{company: "Andersen Bakery",
-		status: "Customers only", 
+		status: "Customers Only", 
 		cleanliness: "green", 
 		coordinates: {lat: 37.790398, lng:-122.399244}},
 		//second object here
 	]
 
-    // Testing the addMarker function
-	// var booty = new google.maps.LatLng(37.788803, -122.401672);
-	// var bootyMarker = addMarker(booty);
+	var marker;
+      var markers = new Array();
 
-	// // var supburg = new google.maps.LatLng(37.786942, -122.404037);
-	// // var supburgMarker = addMarker(supburg);
+      for (var i = 0; i < bathRoomData.length; i++) {
+        new google.maps.Marker({
+          position: bathRoomData[i].coordinates,
+          title: bathRoomData[i].name,
+          map: map
+        });
 
-	// // var oasis = new google.maps.LatLng(37.786861, -122.403697);
-	// // var oasisMarker = addMarker(oasis);
-
-	// // var macys = new google.maps.LatLng(37.786959, -122.405973);
-	// // var macysMarker = addMarker(macys);
-
-	// var port = new google.maps.LatLng(37.789791, -122.401145);
-	// var portMarker = addMarker(port);
-
-	// var oldnavy = new google.maps.LatLng(37.785320, -122.405972);
-	// var oldnavyMarker = addMarker(oldnavy);
-
-	// var ginto = new google.maps.LatLng(37.788335, -122.402948);
-	// var gintoMarker = addMarker(ginto);
-
-	// var maz = new google.maps.LatLng(37.787601, -122.404064);
-	// var mazMarker = addMarker(maz);
+        markers.push(marker);
+      }
+	}
 
 
-	// addInfoWindow(noodzMarker, "Noodles & Company");
-	// addInfoWindow(peetzMarker, "Peets Coffee and Company");
-	// addInfoWindow(ghirMarker, "Ghirardelli");
-	// addInfoWindow(breadMarker, "Andersen Bread");
-	// addInfoWindow(bootyMarker, "Boudin Bakery");
-	// addInfoWindow(supburgMarker, "Super Duper Burger");
-	// addInfoWindow(macysMarker, "Macy's Men");
-	// addInfoWindow(portMarker, "Portico Restaurant");
-	// addInfoWindow(oldnavyMarker, "Old Navy");
-	// addInfoWindow(gintoMarker, "Ginto Izakaya Japanaise");
-	// addInfoWindow(mazMarker, "Mazarine Coffee");
-	// addInfoWindow(oasisMarker, "Oasis Grill");
-	
-
-}
 
 
 // first refactor
