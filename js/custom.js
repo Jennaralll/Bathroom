@@ -30,10 +30,22 @@ function initMap() {
 	}
 
 	var bathRoomData = [
-		{company: "Noodles & Co",
-		status: "private"
+		{company: "Noodles & Company",
+		status: "Customers only",
 		cleanliness: "unknown",
 		coordinates: {lat: 37.789671, lng: -122.400564}},
+		{company: "Peet's Coffee and Tea",
+		status: "Customers only",
+		cleanliness: "clean", 
+		coordinates: {lat:37.784618, lng:-122.406799}},
+		{company: "Ghiradelli",
+		status: "Customers only",
+		cleanliness: "clean", 
+		coordinates: {lat:37.788515, lng:-122.402037}},
+		{company: "Andersen Bakery",
+		status: "Customers only", 
+		cleanliness: "clean", 
+		coordinates: {lat: 37.790398, lng:-122.399244}},
 		//second object here
 	]
 
