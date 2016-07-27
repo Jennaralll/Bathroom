@@ -29,6 +29,14 @@ function initMap() {
 
 	}
 
+	var bathRoomData = [
+		{company: "Noodles & Co",
+		status: "private"
+		cleanliness: "unknown",
+		coordinates: {lat: 37.789671, lng: -122.400564}},
+		//second object here
+	]
+
     // Testing the addMarker function
     var noodz = new google.maps.LatLng(37.789671, -122.400564);
     var noodzMarker = addMarker(noodz);
@@ -82,3 +90,25 @@ function initMap() {
 	
 
 }
+
+
+// first refactor
+// 	put all of the your data into the bathroomData data structure
+// 	putMarkersOnMap: write a method that cycles through the data structure and places markers on the map (follow Hanah's example)
+
+// second refactor
+// 	html: have a button that removes all markers (when clicked, it call the remove all markers method)
+// 	jquery: write removeAllMarkers
+
+// third refactor
+// 	need to add buttons to the front page somewhere near the map that indicate cleanly status
+// 	in jquery, you are going to have three listeners - one for each button.  If the green button gets clicked, then display all of the markers with the status of clean
+// 		on green button click
+// 			removeAllMarkers()
+// 			putMarkersOnMap(green)
+// 	putMarkersOnMap(status)
+// 		for each marker dictionary/object literal in bathroomData array
+// 			check if the status that is passed in is equal to green
+// 			  add the marker to the map that has the status green
+// 			else if status that is passed in is equal to yellow
+// 				add marker to the map that has the status
