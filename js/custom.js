@@ -50,23 +50,22 @@ function initMap() {
 		status: "public"
 		cleanliness: "green",
 		coordinates: {lat: 37.787601, lng: -122.404064}},
-		
+		{company: "Peet's Coffee and Tea",
+		status: "Customers only",
+		cleanliness: "green", 
+		coordinates: {lat:37.784618, lng:-122.406799}},
+		{company: "Ghiradelli",
+		status: "Customers only",
+		cleanliness: "green", 
+		coordinates: {lat:37.788515, lng:-122.402037}},
+		{company: "Andersen Bakery",
+		status: "Customers only", 
+		cleanliness: "green", 
+		coordinates: {lat: 37.790398, lng:-122.399244}},
 		//second object here
 	]
 
     // Testing the addMarker function
-    var noodz = new google.maps.LatLng(37.789671, -122.400564);
-    var noodzMarker = addMarker(noodz);
-
-	var peetz = new google.maps.LatLng(37.784618, -122.406799);
-	var peetzMarker = addMarker(peetz);
-
-	var ghir = new google.maps.LatLng(37.788515, -122.402037);
-	var ghirMarker = addMarker(ghir);
-
-	var bread = new google.maps.LatLng(37.790398, -122.399244);
-	var breadMarker = addMarker(bread);
-
 	var booty = new google.maps.LatLng(37.788803, -122.401672);
 	var bootyMarker = addMarker(booty);
 
