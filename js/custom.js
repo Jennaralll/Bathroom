@@ -1,36 +1,3 @@
-$(document).ready(function () {
-  initMap();
-});
-// function initMap() {
-// 	var mapDiv = document.getElementById('map');
-// 	var map = new google.maps.Map(mapDiv, {
-// 	    center: {lat: 37.789, lng: -122.399},
-// 	    zoom: 15
-// 	});
-
-	// map.setMapTypeId(google.maps.MapTypeId.);s
-
-    // Function for adding a marker to the page.
- //    function addMarker(location) {
- //        var marker = new google.maps.Marker({
- //            position: location,
- //            map: map
- //        });
-
- //        return marker;
- //    }
-
- //    function addInfoWindow(marker, message) {
- //    	var location = marker;
-	// 	var infowindow = new google.maps.InfoWindow({
-	// 		content: message
-	// 	});
-
-	// 	google.maps.event.addListener(marker, "click", function(){
-	// 		infowindow.open(map, marker);
-	// 	});
-
-	// }
 var initMap = function(){
 	
 
@@ -40,9 +7,53 @@ var initMap = function(){
 	    center: {lat: 37.789, lng: -122.399}
 	}
 
-	var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+	map = new google.maps.Map(document.getElementById("map"), mapOptions);
 // array variable
-    var green_status = "7CFC00";
+	setMarkers();
+     
+	// var icon = {
+ //    url: "images/can.png", // url
+ //    scaledSize: new google.maps.Size(20, 20) // scaled size
+    // origin: new google.maps.Point(0, 0), // origin
+    // anchor: new google.maps.Point(0, 0) // anchor
+    // }
+
+
+	// function addInfoWindow(marker, message) {
+
+	// 	var infoWindow = new google.maps.InfoWindow({
+	// 		content: message
+	// 	});
+
+	// 	google.maps.event.addListener(marker, 'click', function() {
+	// 		infoWindow.open(map, marker);
+	// 	})
+	// }
+
+	// addInfoWindow(bathRoomData[0].coordinates, bathRoomData[0].company);
+	// addInfoWindow(bathRoomData[1].coordinates, bathRoomData[1].company);
+	// addInfoWindow(bathRoomData[2].coordinates, bathRoomData[2].company);
+	  
+	
+
+
+var removeMarkers = function(){
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(null);
+	}
+	markers = [];
+}
+
+
+	// removeMarkers();
+
+      // To add the marker to the map, call setMap();
+      // marker.setMap(map);
+}
+
+
+var setMarkers = function(){
+	var green_status = "7CFC00";
     var green_pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + green_status,
         new google.maps.Size(21, 34));
      
@@ -72,7 +83,6 @@ var initMap = function(){
 			console.log(bathRoomData[i].cleanliness);
 		}
 
-
 	    var marker = new google.maps.Marker({
 	      position: bathRoomData[i].coordinates,
 	      title: bathRoomData[i].company,
@@ -84,7 +94,6 @@ var initMap = function(){
 	    	content: bathRoomData[i].company
 	  	});
 
-
 	  	google.maps.event.addListener(marker, 'click', function() {
    			// infowindow.open(map, marker);
    			infowindow.setContent( this.title );
@@ -93,40 +102,10 @@ var initMap = function(){
   		markers.push(marker)
   	
 	}
-	
-	
-
-	// function addInfoWindow(marker, message) {
-
-	// 	var infoWindow = new google.maps.InfoWindow({
-	// 		content: message
-	// 	});
-
-	// 	google.maps.event.addListener(marker, 'click', function() {
-	// 		infoWindow.open(map, marker);
-	// 	})
-	// }
-
-	// addInfoWindow(bathRoomData[0].coordinates, bathRoomData[0].company);
-	// addInfoWindow(bathRoomData[1].coordinates, bathRoomData[1].company);
-	// addInfoWindow(bathRoomData[2].coordinates, bathRoomData[2].company);
-	  
-	
-
-
-	var removeMarkers = function(){
-		for (var i = 0; i < markers.length; i++) {
-			markers[i].setMap(null);
-			}
-		markers = [];
-	}
-
-
-	// removeMarkers();
-
-      // To add the marker to the map, call setMap();
-      // marker.setMap(map);
 }
+
+
+var map;
 
 var bathRoomData = [
 		{company: "Noodles & Co",
@@ -189,6 +168,14 @@ var bathRoomData = [
 	]
 
 
+$(document).ready(function() {
+  initMap();
+  console.log("map");
+  $("button-button1").click(function() {
+  	console.log("button1 clicked");
+ 	$(this).hide();
+  });
+});
 
 // first refactor
 // 	put all of the your data into the bathroomData data structure
