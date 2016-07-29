@@ -1,16 +1,18 @@
-var initMap = function(){
-	
-
-
-	var mapOptions = {
+$(document).ready(function() {
+  var mapOptions = {
 	    zoom: 15,
 	    center: {lat: 37.789, lng: -122.399}
 	}
 
-	map = new google.maps.Map(document.getElementById("map"), mapOptions);
-// array variable
-	setMarkers();
-     
+  map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+  $(".button1").click(function() {
+  	console.log("button1 clicked");
+  	setMarkers("green");
+  })
+});
+
+
 	// var icon = {
  //    url: "images/can.png", // url
  //    scaledSize: new google.maps.Size(20, 20) // scaled size
@@ -49,60 +51,52 @@ var removeMarkers = function(){
 
       // To add the marker to the map, call setMap();
       // marker.setMap(map);
-}
 
 
-var setMarkers = function(){
-	var green_status = "7CFC00";
-    var green_pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + green_status,
-        new google.maps.Size(21, 34));
-     
-    var red_status = "FF0000";
-    var red_pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + red_status,
-        new google.maps.Size(21, 34));
-     
-	// var icon = {
- //    url: "images/can.png", // url
- //    scaledSize: new google.maps.Size(20, 20) // scaled size
-    // origin: new google.maps.Point(0, 0), // origin
-    // anchor: new google.maps.Point(0, 0) // anchor
-    // }
 
+var setMarkers = function(color){
 	var markers = new Array();
-
-	
 
 	for (var i = 0; i < bathRoomData.length; i++) {
 		var single_location = bathRoomData[i]; 
-		if (bathRoomData[i].cleanliness == "green") {
-			icon = green_pin;
-			console.log(bathRoomData[i].cleanliness);
-		}
-		else if (bathRoomData[i].cleanliness == "red") {
-			icon = red_pin;
-			console.log(bathRoomData[i].cleanliness);
-		}
+		if (bathRoomData[i].cleanliness == color) {
+			// if color is equal to green
+				// variable color_status = "7CFC00"
+			// else 
+				// variable color_status = "FF0000";
+			// set pin/icon variable equal to markerimage code with the color_status
+			// make a marker
+			// make an info window
+			var color_status;
+			if (bathRoomData[i].cleanliness == "green") {
+				color_status = "7CFC00";
+			} else if (bathRoomData[i].cleanliness == "red") {
 
-	    var marker = new google.maps.Marker({
-	      position: bathRoomData[i].coordinates,
-	      title: bathRoomData[i].company,
-	      map: map,
-	      icon: icon
-	  	});
+			}
+			var pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color_status,
+        	new google.maps.Size(21, 34));
+			var marker = new google.maps.Marker({
+		      position: bathRoomData[i].coordinates,
+		      title: bathRoomData[i].company,
+		      map: map,
+		      icon: pin
+		  	});
 
-	  	var infowindow = new google.maps.InfoWindow({
+			var infowindow = new google.maps.InfoWindow({
 	    	content: bathRoomData[i].company
-	  	});
+		  	});
 
-	  	google.maps.event.addListener(marker, 'click', function() {
-   			// infowindow.open(map, marker);
-   			infowindow.setContent( this.title );
-   			infowindow.open( map, this );
-  		});
-  		markers.push(marker)
-  	
-	}
-}
+		  	google.maps.event.addListener(marker, 'click', function() {
+	   			// infowindow.open(map, marker);
+	   			infowindow.setContent( this.title );
+	   			infowindow.open( map, this );
+	  		});
+	  		markers.push(marker)
+
+
+		} // closes color if statement
+	} //closing the for loop
+} // closing the function
 
 
 var map;
@@ -168,14 +162,7 @@ var bathRoomData = [
 	]
 
 
-$(document).ready(function() {
-  initMap();
-  console.log("map");
-  $("button-button1").click(function() {
-  	console.log("button1 clicked");
- 	$(this).hide();
-  });
-});
+
 
 // first refactor
 // 	put all of the your data into the bathroomData data structure
