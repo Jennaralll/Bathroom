@@ -32,7 +32,103 @@ $(document).ready(function () {
 
 	// }
 var initMap = function(){
-	var bathRoomData = [
+	
+
+
+	var mapOptions = {
+	    zoom: 15,
+	    center: {lat: 37.789, lng: -122.399}
+	}
+
+	var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+// array variable
+    var green_status = "7CFC00";
+    var green_pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + green_status,
+        new google.maps.Size(21, 34));
+     
+    var red_status = "FF0000";
+    var red_pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + red_status,
+        new google.maps.Size(21, 34));
+     
+	// var icon = {
+ //    url: "images/can.png", // url
+ //    scaledSize: new google.maps.Size(20, 20) // scaled size
+    // origin: new google.maps.Point(0, 0), // origin
+    // anchor: new google.maps.Point(0, 0) // anchor
+    // }
+
+	var markers = new Array();
+
+	
+
+	for (var i = 0; i < bathRoomData.length; i++) {
+		var single_location = bathRoomData[i]; 
+		if (bathRoomData[i].cleanliness == "green") {
+			icon = green_pin;
+			console.log(bathRoomData[i].cleanliness);
+		}
+		else if (bathRoomData[i].cleanliness == "red") {
+			icon = red_pin;
+			console.log(bathRoomData[i].cleanliness);
+		}
+
+
+	    var marker = new google.maps.Marker({
+	      position: bathRoomData[i].coordinates,
+	      title: bathRoomData[i].company,
+	      map: map,
+	      icon: icon
+	  	});
+
+	  	var infowindow = new google.maps.InfoWindow({
+	    	content: bathRoomData[i].company
+	  	});
+
+
+	  	google.maps.event.addListener(marker, 'click', function() {
+   			// infowindow.open(map, marker);
+   			infowindow.setContent( this.title );
+   			infowindow.open( map, this );
+  		});
+  		markers.push(marker)
+  	
+	}
+	
+	
+
+	// function addInfoWindow(marker, message) {
+
+	// 	var infoWindow = new google.maps.InfoWindow({
+	// 		content: message
+	// 	});
+
+	// 	google.maps.event.addListener(marker, 'click', function() {
+	// 		infoWindow.open(map, marker);
+	// 	})
+	// }
+
+	// addInfoWindow(bathRoomData[0].coordinates, bathRoomData[0].company);
+	// addInfoWindow(bathRoomData[1].coordinates, bathRoomData[1].company);
+	// addInfoWindow(bathRoomData[2].coordinates, bathRoomData[2].company);
+	  
+	
+
+
+	var removeMarkers = function(){
+		for (var i = 0; i < markers.length; i++) {
+			markers[i].setMap(null);
+			}
+		markers = [];
+	}
+
+
+	// removeMarkers();
+
+      // To add the marker to the map, call setMap();
+      // marker.setMap(map);
+}
+
+var bathRoomData = [
 		{company: "Noodles & Co",
 		status: "Customers Only",
 		cleanliness: "green",
@@ -81,50 +177,16 @@ var initMap = function(){
 		status: "Customers Only", 
 		cleanliness: "green", 
 		coordinates: {lat: 37.790398, lng:-122.399244}},
+		{company: "Public Bathroom", 
+		status: "No purchase necessary",
+		cleanliness: "red", 
+		coordinates: {lat: 37.792730, lng:-122.396781}}, 
+		{company: "Public Bathroom", 
+		status: "No purchase necessary",
+		cleanliness: "red", 
+		coordinates: {lat: 37.787574, lng:-122.407545}}
 		//second object here
 	]
-
-    var myLatlng = new google.maps.LatLng(37.785,-122.440);
-      var mapOptions = {
-        zoom: 15,
-        center: {lat: 37.789, lng: -122.399}
-      }
-      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-      var marker;
-      var markers = new Array();
-
-      for (var i = 0; i < bathRoomData.length; i++) {
-        new google.maps.Marker({
-          position: bathRoomData[i].coordinates,
-          title: bathRoomData[i].name,
-          map: map
-      	});
-
-        markers.push(marker);
-      }
-
-	var setMarkers = function(events){
-      	events.forEach(function(event){
-      		var marker = new google.maps.Marker({
-      			position: {lat: event.lat, lng: event.lng}, 
-      			title: event.name, 
-      			animation: google.maps.Animation.DROP, 
-      			map:map 
-      		});
-      		markers.push(marker);
-      	});
-    }
-	var removeMarkers = function(){
-	for (var i = 0; i < markers.length; i++) {
-		markers[i].setMap(null);
-		}
-	markers = [];
-	}
-
-      // To add the marker to the map, call setMap();
-      // marker.setMap(map);
-  }
 
 
 
@@ -148,3 +210,11 @@ var initMap = function(){
 // 			  add the marker to the map that has the status green
 // 			else if status that is passed in is equal to yellow
 // 				add marker to the map that has the status
+
+
+// in our jquery, create a listener to listen for the green button
+// on the click of the green button,
+//     	call the setMarkers method and pass in green
+//  	when you iterate through the markers to add them to the map, 
+//		only add the ones that match the parameter passed (aka green)
+
