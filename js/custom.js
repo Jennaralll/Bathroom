@@ -9,6 +9,12 @@ $(document).ready(function() {
   $(".button1").click(function() {
   	console.log("button1 clicked");
   	setMarkers("green");
+
+  })
+  $(".button3").click(function() {
+  	console.log("button2 clicked");
+  	setMarkers("red");
+  	
   })
 });
 
@@ -57,8 +63,7 @@ var removeMarkers = function(){
 var setMarkers = function(color){
 	var markers = new Array();
 
-	for (var i = 0; i < bathRoomData.length; i++) {
-		var single_location = bathRoomData[i]; 
+	for (var i = 0; i < bathRoomData.length; i++) { 
 		if (bathRoomData[i].cleanliness == color) {
 			// if color is equal to green
 				// variable color_status = "7CFC00"
@@ -71,19 +76,21 @@ var setMarkers = function(color){
 			if (bathRoomData[i].cleanliness == "green") {
 				color_status = "7CFC00";
 			} else if (bathRoomData[i].cleanliness == "red") {
-
+				color_status = "FF0000";
 			}
+
 			var pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color_status,
         	new google.maps.Size(21, 34));
+
 			var marker = new google.maps.Marker({
-		      position: bathRoomData[i].coordinates,
-		      title: bathRoomData[i].company,
-		      map: map,
-		      icon: pin
+			    position: bathRoomData[i].coordinates,
+			    title: bathRoomData[i].company,
+			    map: map,
+			    icon: pin
 		  	});
 
 			var infowindow = new google.maps.InfoWindow({
-	    	content: bathRoomData[i].company
+	    		content: bathRoomData[i].company
 		  	});
 
 		  	google.maps.event.addListener(marker, 'click', function() {
