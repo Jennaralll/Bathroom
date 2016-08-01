@@ -115,6 +115,7 @@ var initMap = function(){
       		markers.push(marker);
       	});
     }
+
 	var removeMarkers = function(){
 	for (var i = 0; i < markers.length; i++) {
 		markers[i].setMap(null);
