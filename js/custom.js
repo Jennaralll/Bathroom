@@ -1,8 +1,52 @@
+// var JSONURL = "https://spreadsheets.google.com/feeds/list/1Gw9qdMt15gnDnab2osAF2CxTBumi-fMSJs04rQxqNss/1/public/basic?alt=json";
+// function readDataAndAppend(data){
+//     var rows = [];
+//     var cells = data.feed.entry;
+    
+//     for (var i = 0; i < cells.length; i++){
+//         var rowObj = {};
+//         rowObj.timestamp = cells[i].title.$t;
+//         var rowCols = cells[i].content.$t.split(',');
+//         for (var j = 0; j < rowCols.length; j++){
+//             var keyVal = rowCols[j].split(':');
+//             rowObj[keyVal[0].trim()] = keyVal[1].trim();
+//         }
+//         rows.push(rowObj);
+//     }
+    
+//     console.log(rows);
+// } 
+
+
+
+
 $(document).ready(function() {
+  
+	$("#bathroom-form").submit(function(event){
+		event.preventDefault();
+		var data = $(this).serialize();
+		console.log(data);
+	
+		$.ajax({
+			url: "https://script.google.com/macros/s/AKfycbwfVi8Ye0M41iotzH9HikJ_fY6_aUnjTH2c8nUCfFmTUO3Vtvkr/exec",
+			type: "POST", 
+			data: data,
+		}).done(function(data) {
+				console.log("success!")
+		})
+	});
+
   var mapOptions = {
 	    zoom: 15,
 	    center: {lat: 37.789, lng: -122.399}
   }
+
+  // $.ajax({
+  // 	url: JSONURL,
+  // 	success: function(data){
+  // 		readDataAndAppend(data);
+  // 	}
+  // })		
 
   map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
