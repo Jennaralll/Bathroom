@@ -95,9 +95,6 @@ function initMap() {
       }
 	}
 
-
-
-
 // first refactor
 // 	put all of the your data into the bathroomData data structure
 // 	putMarkersOnMap: write a method that cycles through the data structure and places markers on the map (follow Hanah's example)
