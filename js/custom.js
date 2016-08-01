@@ -2,21 +2,36 @@ $(document).ready(function() {
   var mapOptions = {
 	    zoom: 15,
 	    center: {lat: 37.789, lng: -122.399}
-	}
+  }
 
   map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
+
   $(".button1").click(function() {
   	console.log("button1 clicked");
+  	setMapOnAll(null);
   	setMarkers("green");
-
   })
+
+
   $(".button3").click(function() {
   	console.log("button2 clicked");
-  	setMarkers("red");
-  	
+  	setMapOnAll(null);
+  	setMarkers("red"); 	
   })
+
+  $(".button4").click(function(){
+  	console.log("Show All clicked");
+  	setMapOnAll(map);
+  })
+
+  $(".button5").click(function(){
+  	console.log("Hide All clicked");
+  	setMapOnAll(null);
+  })
+
 });
+
 
 
 	// var icon = {
@@ -41,17 +56,18 @@ $(document).ready(function() {
 	// addInfoWindow(bathRoomData[0].coordinates, bathRoomData[0].company);
 	// addInfoWindow(bathRoomData[1].coordinates, bathRoomData[1].company);
 	// addInfoWindow(bathRoomData[2].coordinates, bathRoomData[2].company);
-	  
-	
-
-
-var removeMarkers = function(){
-	for (var i = 0; i < markers.length; i++) {
-		markers[i].setMap(null);
-	}
-	markers = [];
-}
-
+	var setMapOnAll= function (map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+  
+	// var removeMarkers = function(){
+		// for (var i = 0; i < markers.length; i++) {
+			// markers[i].setMarkers(null);
+	// 	}
+	// 	markers = [];
+	// }
 
 	// removeMarkers();
 
@@ -59,9 +75,8 @@ var removeMarkers = function(){
       // marker.setMap(map);
 
 
-
+var markers = new Array();
 var setMarkers = function(color){
-	var markers = new Array();
 
 	for (var i = 0; i < bathRoomData.length; i++) { 
 		if (bathRoomData[i].cleanliness == color) {
@@ -78,6 +93,7 @@ var setMarkers = function(color){
 			} else if (bathRoomData[i].cleanliness == "red") {
 				color_status = "FF0000";
 			}
+
 
 			var pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color_status,
         	new google.maps.Size(21, 34));
