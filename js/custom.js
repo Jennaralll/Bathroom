@@ -1,35 +1,130 @@
-function initMap() {
-	var mapDiv = document.getElementById('map');
-	var map = new google.maps.Map(mapDiv, {
-	    center: {lat: 37.789, lng: -122.399},
-	    zoom: 15
-	});
+$(document).ready(function() {
+  var mapOptions = {
+	    zoom: 15,
+	    center: {lat: 37.789, lng: -122.399}
+  }
 
-	// map.setMapTypeId(google.maps.MapTypeId.);s
+  map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-    // Function for adding a marker to the page.
-    function addMarker(location) {
-        var marker = new google.maps.Marker({
-            position: location,
-            map: map
-        });
 
-        return marker;
-    }
+  $(".button1").click(function() {
+  	console.log("button1 clicked");
+  	setMapOnAll(null);
+  	setMarkers("green");
+  })
 
-    function addInfoWindow(marker, message) {
-    	var location = marker;
-		var infowindow = new google.maps.InfoWindow({
-			content: message
-		});
 
-		google.maps.event.addListener(marker, "click", function(){
-			infowindow.open(map, marker);
-		});
+  $(".button3").click(function() {
+  	console.log("button2 clicked");
+  	setMapOnAll(null);
+  	setMarkers("red"); 	
+  })
 
-	}
+  $(".button4").click(function(){
+  	console.log("Show All clicked");
+  	setMapOnAll(map);
+  })
 
-	var bathRoomData = [
+  $(".button5").click(function(){
+  	console.log("Hide All clicked");
+  	setMapOnAll(null);
+  })
+
+});
+
+
+
+	// var icon = {
+ //    url: "images/can.png", // url
+ //    scaledSize: new google.maps.Size(20, 20) // scaled size
+    // origin: new google.maps.Point(0, 0), // origin
+    // anchor: new google.maps.Point(0, 0) // anchor
+    // }
+
+
+	// function addInfoWindow(marker, message) {
+
+	// 	var infoWindow = new google.maps.InfoWindow({
+	// 		content: message
+	// 	});
+
+	// 	google.maps.event.addListener(marker, 'click', function() {
+	// 		infoWindow.open(map, marker);
+	// 	})
+	// }
+
+	// addInfoWindow(bathRoomData[0].coordinates, bathRoomData[0].company);
+	// addInfoWindow(bathRoomData[1].coordinates, bathRoomData[1].company);
+	// addInfoWindow(bathRoomData[2].coordinates, bathRoomData[2].company);
+	var setMapOnAll= function (map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+  
+	// var removeMarkers = function(){
+		// for (var i = 0; i < markers.length; i++) {
+			// markers[i].setMarkers(null);
+	// 	}
+	// 	markers = [];
+	// }
+
+	// removeMarkers();
+
+      // To add the marker to the map, call setMap();
+      // marker.setMap(map);
+
+
+var markers = new Array();
+var setMarkers = function(color){
+
+	for (var i = 0; i < bathRoomData.length; i++) { 
+		if (bathRoomData[i].cleanliness == color) {
+			// if color is equal to green
+				// variable color_status = "7CFC00"
+			// else 
+				// variable color_status = "FF0000";
+			// set pin/icon variable equal to markerimage code with the color_status
+			// make a marker
+			// make an info window
+			var color_status;
+			if (bathRoomData[i].cleanliness == "green") {
+				color_status = "7CFC00";
+			} else if (bathRoomData[i].cleanliness == "red") {
+				color_status = "FF0000";
+			}
+
+
+			var pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color_status,
+        	new google.maps.Size(21, 34));
+
+			var marker = new google.maps.Marker({
+			    position: bathRoomData[i].coordinates,
+			    title: bathRoomData[i].company,
+			    map: map,
+			    icon: pin
+		  	});
+
+			var infowindow = new google.maps.InfoWindow({
+	    		content: bathRoomData[i].company
+		  	});
+
+		  	google.maps.event.addListener(marker, 'click', function() {
+	   			// infowindow.open(map, marker);
+	   			infowindow.setContent( this.title );
+	   			infowindow.open( map, this );
+	  		});
+	  		markers.push(marker)
+
+
+		} // closes color if statement
+	} //closing the for loop
+} // closing the function
+
+
+var map;
+
+var bathRoomData = [
 		{company: "Noodles & Co",
 		status: "Customers Only",
 		cleanliness: "green",
@@ -78,40 +173,14 @@ function initMap() {
 		status: "Customers Only", 
 		cleanliness: "green", 
 		coordinates: {lat: 37.790398, lng:-122.399244}},
+		{company: "Public Bathroom", 
+		status: "No purchase necessary",
+		cleanliness: "red", 
+		coordinates: {lat: 37.792730, lng:-122.396781}}, 
+		{company: "Public Bathroom", 
+		status: "No purchase necessary",
+		cleanliness: "red", 
+		coordinates: {lat: 37.787574, lng:-122.407545}}
 		//second object here
 	]
 
-	var marker;
-      var markers = new Array();
-
-      for (var i = 0; i < bathRoomData.length; i++) {
-        new google.maps.Marker({
-          position: bathRoomData[i].coordinates,
-          title: bathRoomData[i].name,
-          map: map
-        });
-
-        markers.push(marker);
-      }
-	}
-
-// first refactor
-// 	put all of the your data into the bathroomData data structure
-// 	putMarkersOnMap: write a method that cycles through the data structure and places markers on the map (follow Hanah's example)
-
-// second refactor
-// 	html: have a button that removes all markers (when clicked, it call the remove all markers method)
-// 	jquery: write removeAllMarkers
-
-// third refactor
-// 	need to add buttons to the front page somewhere near the map that indicate cleanly status
-// 	in jquery, you are going to have three listeners - one for each button.  If the green button gets clicked, then display all of the markers with the status of clean
-// 		on green button click
-// 			removeAllMarkers()
-// 			putMarkersOnMap(green)
-// 	putMarkersOnMap(status)
-// 		for each marker dictionary/object literal in bathroomData array
-// 			check if the status that is passed in is equal to green
-// 			  add the marker to the map that has the status green
-// 			else if status that is passed in is equal to yellow
-// 				add marker to the map that has the status
