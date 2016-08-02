@@ -143,79 +143,41 @@ var setMarkers = function(color){
 
 function addMarkerToMap(dataArray) {
 	console.log(dataArray);
+
+
 	var marker = new google.maps.Marker({
-			    position: {lat: parseFloat(bathRoomData[i].lat), lng: parseFloat(bathRoomData[i].lng)},
-			    title: bathRoomData[i].company,
+			    position: {lat: parseFloat(dataArray[3].value), lng: parseFloat(dataArray[4].value)},
+			    title: dataArray[0].value,
 			    map: map,
 			    icon: pin
 		  	});
 		  	console.log(marker);
+
+			var color_status;
+			if (dataArray[2].value == "Clean") {
+				color_status = "7CFC00";
+			} else if (dataArray[2].value == "Dirty") {
+				color_status = "FF0000";
+			}
+
+			var pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color_status);
+        
+			var infowindow = new google.maps.InfoWindow({
+	    		content: dataArray[1].value + " " + dataArray[0].value
+		  	});
+
+		  	google.maps.event.addListener(marker, 'click', function() {
+	   			// infowindow.open(map, marker);
+	   			infowindow.setContent( this.title );
+	   			infowindow.open( map, this );
+	  		});
+	  		markers.push(marker)
 	//work through the data ( which is an array of objects)
 	// take out the information you need
 	// put in code to create a new marker 
 } 
 
+
+
 var map;
-
-// var bathRoomData = [
-// 		{company: "Noodles & Co",
-// 		status: "Private",
-// 		cleanliness: "clean",
-// 		coordinates: {lat: 37.789671, lng: -122.400564}},
-// 		{company: "Boudin Bakery",
-// 		status: "Customers Only",
-// 		cleanliness: "green",
-// 		coordinates: {lat: 37.788803, lng: -122.401672}},
-// 		{company: "Super Duper Burger",
-// 		status: "No purchase necessary",
-// 		cleanliness: "green",
-// 		coordinates: {lat: 37.786942, lng: -122.404037}},
-// 		{company: "Oasis Grill",
-// 		status: "No purchase necessary",
-// 		cleanliness: "green",
-// 		coordinates: {lat: 37.786861, lng: -122.403697}},
-// 		{company: "Macy's",
-// 		status: "No purchase necessary",
-// 		cleanliness: "green",
-// 		coordinates: {lat: 37.786959, lng: -122.405973}},
-// 		{company: "Portico Restaurant",
-// 		status: "Customers Only",
-// 		cleanliness: "green",
-// 		coordinates: {lat: 37.789791, lng: -122.401145}},
-// 		{company: "Old Navy",
-// 		status: "No purchase necessary",
-// 		cleanliness: "green",
-// 		coordinates: {lat: 37.785320, lng: -122.405972}},
-// 		{company: "Ginto Izakaya Japanaise",
-// 		status: "No purchase necessary",
-// 		cleanliness: "green",
-// 		coordinates: {lat: 37.788335, lng: -122.402948}},
-// 		{company: "Mazarine Coffee",
-// 		status: "No purchase necessary",
-// 		cleanliness: "green",
-// 		coordinates: {lat: 37.787601, lng: -122.404064}},
-// 		{company: "Peet's Coffee and Tea",
-// 		status: "Customers Only",
-// 		cleanliness: "green", 
-// 		coordinates: {lat:37.784618, lng:-122.406799}},
-// 		{company: "Ghiradelli",
-// 		status: "Customers Only",
-// 		cleanliness: "green", 
-// 		coordinates: {lat:37.788515, lng:-122.402037}},
-// 		{company: "Andersen Bakery",
-// 		status: "Customers Only", 
-// 		cleanliness: "green", 
-// 		coordinates: {lat: 37.790398, lng:-122.399244}},
-// 		{company: "Public Bathroom", 
-// 		status: "No purchase necessary",
-// 		cleanliness: "red", 
-// 		coordinates: {lat: 37.792730, lng:-122.396781}}, 
-// 		{company: "Public Bathroom", 
-// 		status: "No purchase necessary",
-// 		cleanliness: "red", 
-// 		coordinates: {lat: 37.787574, lng:-122.407545}}
-// 		//second object here
-// 	]
-
-
 
