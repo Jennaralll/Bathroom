@@ -150,10 +150,22 @@ function addMarkerToMap(dataArray) {
 			    icon: pin
 		  	});
 		  	console.log(marker);
+
+			var infowindow = new google.maps.InfoWindow({
+	    		content: bathRoomData[i].status + " " + bathRoomData[i].company
+		  	});
+
+		  	google.maps.event.addListener(marker, 'click', function() {
+	   			// infowindow.open(map, marker);
+	   			infowindow.setContent( this.title );
+	   			infowindow.open( map, this );
+	  		});
+	  		markers.push(marker)
 	//work through the data ( which is an array of objects)
 	// take out the information you need
 	// put in code to create a new marker 
 } 
+
 
 var map;
 
