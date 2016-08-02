@@ -36,7 +36,8 @@ $(document).ready(function() {
 	$("#bathroom-form").submit(function(event){
 		event.preventDefault();
 		var data = $(this).serialize();
-		console.log(data);
+		var dataArray = $(this).serializeArray();
+		console.log(dataArray)
 	
 		$.ajax({
 			url: "https://script.google.com/macros/s/AKfycbwfVi8Ye0M41iotzH9HikJ_fY6_aUnjTH2c8nUCfFmTUO3Vtvkr/exec",
@@ -45,6 +46,8 @@ $(document).ready(function() {
 		}).done(function(data) {
 				console.log("success!")
 		})
+
+		addMarkerToMap(dataArray);
 	});
 
 	var mapOptions = {
@@ -138,6 +141,20 @@ var setMarkers = function(color){
 } // closing the function
 
 
+function addMarkerToMap(dataArray) {
+	console.log(dataArray);
+	var marker = new google.maps.Marker({
+			    position: {lat: parseFloat(bathRoomData[i].lat), lng: parseFloat(bathRoomData[i].lng)},
+			    title: bathRoomData[i].company,
+			    map: map,
+			    icon: pin
+		  	});
+		  	console.log(marker);
+	//work through the data ( which is an array of objects)
+	// take out the information you need
+	// put in code to create a new marker 
+} 
+
 var map;
 
 // var bathRoomData = [
@@ -202,14 +219,3 @@ var map;
 
 
 
-// {company: "Public Bathroom", 
-// 		status: "No purchase necessary",
-// 		cleanliness: "red", 
-// 		coordinates: {lat: 37.787574, lng:-122.407545}}
-
-
-// {company: "Public Bathroom", 
-// 		status: "No purchase necessary",
-// 		cleanliness: "red", 
-// 		lat: 37.787574, 
-// 		lng:-122.407545}
