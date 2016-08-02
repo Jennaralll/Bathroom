@@ -1,31 +1,43 @@
-// var JSONURL = "https://spreadsheets.google.com/feeds/list/1Gw9qdMt15gnDnab2osAF2CxTBumi-fMSJs04rQxqNss/1/public/basic?alt=json";
-// function readDataAndAppend(data){
-//     var rows = [];
-//     var cells = data.feed.entry;
+var bathRoomData;
+
+function readDataAndAppend(data){
+    var rows = [];
+    var cells = data.feed.entry;
     
-//     for (var i = 0; i < cells.length; i++){
-//         var rowObj = {};
-//         rowObj.timestamp = cells[i].title.$t;
-//         var rowCols = cells[i].content.$t.split(',');
-//         for (var j = 0; j < rowCols.length; j++){
-//             var keyVal = rowCols[j].split(':');
-//             rowObj[keyVal[0].trim()] = keyVal[1].trim();
-//         }
-//         rows.push(rowObj);
-//     }
+    for (var i = 0; i < cells.length; i++){
+        var rowObj = {};
+        rowObj.timestamp = cells[i].title.$t;
+        var rowCols = cells[i].content.$t.split(',');
+        for (var j = 0; j < rowCols.length; j++){
+            var keyVal = rowCols[j].split(':');
+            rowObj[keyVal[0].trim()] = keyVal[1].trim();
+        }
+        rows.push(rowObj);
+    }
     
-//     console.log(rows);
-// } 
+    console.log(rows);
+
+    bathRoomData = rows;
+} 
 
 
 
 
 $(document).ready(function() {
+
+	  $.ajax({
+	  	url: "https://spreadsheets.google.com/feeds/list/1Gw9qdMt15gnDnab2osAF2CxTBumi-fMSJs04rQxqNss/1/public/basic?alt=json",
+	  	success: function(data){
+	  		readDataAndAppend(data);
+	  	}
+	  })	
   
+  	//sticking data into the google spreadsheet
 	$("#bathroom-form").submit(function(event){
 		event.preventDefault();
 		var data = $(this).serialize();
-		console.log(data);
+		var dataArray = $(this).serializeArray();
+		console.log(dataArray)
 	
 		$.ajax({
 			url: "https://script.google.com/macros/s/AKfycbwfVi8Ye0M41iotzH9HikJ_fY6_aUnjTH2c8nUCfFmTUO3Vtvkr/exec",
@@ -34,34 +46,29 @@ $(document).ready(function() {
 		}).done(function(data) {
 				console.log("success!")
 		})
+
+		addMarkerToMap(dataArray);
 	});
 
-  var mapOptions = {
-	    zoom: 15,
-	    center: {lat: 37.789, lng: -122.399}
-  }
+	var mapOptions = {
+		    zoom: 15,
+		    center: {lat: 37.789, lng: -122.399}
+	}	
 
-  // $.ajax({
-  // 	url: JSONURL,
-  // 	success: function(data){
-  // 		readDataAndAppend(data);
-  // 	}
-  // })		
-
-  map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
 
   $(".button1").click(function() {
   	console.log("button1 clicked");
   	setMapOnAll(null);
-  	setMarkers("green");
+  	setMarkers("Clean");
   })
 
 
   $(".button3").click(function() {
   	console.log("button2 clicked");
   	setMapOnAll(null);
-  	setMarkers("red"); 	
+  	setMarkers("Dirty"); 	
   })
 
   $(".button4").click(function(){
@@ -77,52 +84,18 @@ $(document).ready(function() {
 });
 
 
-
-	// var icon = {
- //    url: "images/can.png", // url
- //    scaledSize: new google.maps.Size(20, 20) // scaled size
-    // origin: new google.maps.Point(0, 0), // origin
-    // anchor: new google.maps.Point(0, 0) // anchor
-    // }
-
-
-	// function addInfoWindow(marker, message) {
-
-	// 	var infoWindow = new google.maps.InfoWindow({
-	// 		content: message
-	// 	});
-
-	// 	google.maps.event.addListener(marker, 'click', function() {
-	// 		infoWindow.open(map, marker);
-	// 	})
-	// }
-
-	// addInfoWindow(bathRoomData[0].coordinates, bathRoomData[0].company);
-	// addInfoWindow(bathRoomData[1].coordinates, bathRoomData[1].company);
-	// addInfoWindow(bathRoomData[2].coordinates, bathRoomData[2].company);
-	var setMapOnAll= function (map) {
-        for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(map);
-        }
-      }
-  
-	// var removeMarkers = function(){
-		// for (var i = 0; i < markers.length; i++) {
-			// markers[i].setMarkers(null);
-	// 	}
-	// 	markers = [];
-	// }
-
-	// removeMarkers();
-
-      // To add the marker to the map, call setMap();
-      // marker.setMap(map);
-
+var setMapOnAll= function (map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
+  }
+ 
 
 var markers = new Array();
 var setMarkers = function(color){
 
 	for (var i = 0; i < bathRoomData.length; i++) { 
+
 		if (bathRoomData[i].cleanliness == color) {
 			// if color is equal to green
 				// variable color_status = "7CFC00"
@@ -132,9 +105,9 @@ var setMarkers = function(color){
 			// make a marker
 			// make an info window
 			var color_status;
-			if (bathRoomData[i].cleanliness == "green") {
+			if (bathRoomData[i].cleanliness == "Clean") {
 				color_status = "7CFC00";
-			} else if (bathRoomData[i].cleanliness == "red") {
+			} else if (bathRoomData[i].cleanliness == "Dirty") {
 				color_status = "FF0000";
 			}
 
@@ -142,15 +115,17 @@ var setMarkers = function(color){
 			var pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color_status,
         	new google.maps.Size(21, 34));
 
+
 			var marker = new google.maps.Marker({
-			    position: bathRoomData[i].coordinates,
+			    position: {lat: parseFloat(bathRoomData[i].lat), lng: parseFloat(bathRoomData[i].lng)},
 			    title: bathRoomData[i].company,
 			    map: map,
 			    icon: pin
 		  	});
+		  	console.log(marker);
 
 			var infowindow = new google.maps.InfoWindow({
-	    		content: bathRoomData[i].company
+	    		content: bathRoomData[i].status + " " + bathRoomData[i].company
 		  	});
 
 		  	google.maps.event.addListener(marker, 'click', function() {
@@ -166,65 +141,81 @@ var setMarkers = function(color){
 } // closing the function
 
 
+function addMarkerToMap(dataArray) {
+	console.log(dataArray);
+	var marker = new google.maps.Marker({
+			    position: {lat: parseFloat(bathRoomData[i].lat), lng: parseFloat(bathRoomData[i].lng)},
+			    title: bathRoomData[i].company,
+			    map: map,
+			    icon: pin
+		  	});
+		  	console.log(marker);
+	//work through the data ( which is an array of objects)
+	// take out the information you need
+	// put in code to create a new marker 
+} 
+
 var map;
 
-var bathRoomData = [
-		{company: "Noodles & Co",
-		status: "Customers Only",
-		cleanliness: "green",
-		coordinates: {lat: 37.789671, lng: -122.400564}},
-		{company: "Boudin Bakery",
-		status: "Customers Only",
-		cleanliness: "green",
-		coordinates: {lat: 37.788803, lng: -122.401672}},
-		{company: "Super Duper Burger",
-		status: "No purchase necessary",
-		cleanliness: "green",
-		coordinates: {lat: 37.786942, lng: -122.404037}},
-		{company: "Oasis Grill",
-		status: "No purchase necessary",
-		cleanliness: "green",
-		coordinates: {lat: 37.786861, lng: -122.403697}},
-		{company: "Macy's",
-		status: "No purchase necessary",
-		cleanliness: "green",
-		coordinates: {lat: 37.786959, lng: -122.405973}},
-		{company: "Portico Restaurant",
-		status: "Customers Only",
-		cleanliness: "green",
-		coordinates: {lat: 37.789791, lng: -122.401145}},
-		{company: "Old Navy",
-		status: "No purchase necessary",
-		cleanliness: "green",
-		coordinates: {lat: 37.785320, lng: -122.405972}},
-		{company: "Ginto Izakaya Japanaise",
-		status: "No purchase necessary",
-		cleanliness: "green",
-		coordinates: {lat: 37.788335, lng: -122.402948}},
-		{company: "Mazarine Coffee",
-		status: "No purchase necessary",
-		cleanliness: "green",
-		coordinates: {lat: 37.787601, lng: -122.404064}},
-		{company: "Peet's Coffee and Tea",
-		status: "Customers Only",
-		cleanliness: "green", 
-		coordinates: {lat:37.784618, lng:-122.406799}},
-		{company: "Ghiradelli",
-		status: "Customers Only",
-		cleanliness: "green", 
-		coordinates: {lat:37.788515, lng:-122.402037}},
-		{company: "Andersen Bakery",
-		status: "Customers Only", 
-		cleanliness: "green", 
-		coordinates: {lat: 37.790398, lng:-122.399244}},
-		{company: "Public Bathroom", 
-		status: "No purchase necessary",
-		cleanliness: "red", 
-		coordinates: {lat: 37.792730, lng:-122.396781}}, 
-		{company: "Public Bathroom", 
-		status: "No purchase necessary",
-		cleanliness: "red", 
-		coordinates: {lat: 37.787574, lng:-122.407545}}
-		//second object here
-	]
+// var bathRoomData = [
+// 		{company: "Noodles & Co",
+// 		status: "Private",
+// 		cleanliness: "clean",
+// 		coordinates: {lat: 37.789671, lng: -122.400564}},
+// 		{company: "Boudin Bakery",
+// 		status: "Customers Only",
+// 		cleanliness: "green",
+// 		coordinates: {lat: 37.788803, lng: -122.401672}},
+// 		{company: "Super Duper Burger",
+// 		status: "No purchase necessary",
+// 		cleanliness: "green",
+// 		coordinates: {lat: 37.786942, lng: -122.404037}},
+// 		{company: "Oasis Grill",
+// 		status: "No purchase necessary",
+// 		cleanliness: "green",
+// 		coordinates: {lat: 37.786861, lng: -122.403697}},
+// 		{company: "Macy's",
+// 		status: "No purchase necessary",
+// 		cleanliness: "green",
+// 		coordinates: {lat: 37.786959, lng: -122.405973}},
+// 		{company: "Portico Restaurant",
+// 		status: "Customers Only",
+// 		cleanliness: "green",
+// 		coordinates: {lat: 37.789791, lng: -122.401145}},
+// 		{company: "Old Navy",
+// 		status: "No purchase necessary",
+// 		cleanliness: "green",
+// 		coordinates: {lat: 37.785320, lng: -122.405972}},
+// 		{company: "Ginto Izakaya Japanaise",
+// 		status: "No purchase necessary",
+// 		cleanliness: "green",
+// 		coordinates: {lat: 37.788335, lng: -122.402948}},
+// 		{company: "Mazarine Coffee",
+// 		status: "No purchase necessary",
+// 		cleanliness: "green",
+// 		coordinates: {lat: 37.787601, lng: -122.404064}},
+// 		{company: "Peet's Coffee and Tea",
+// 		status: "Customers Only",
+// 		cleanliness: "green", 
+// 		coordinates: {lat:37.784618, lng:-122.406799}},
+// 		{company: "Ghiradelli",
+// 		status: "Customers Only",
+// 		cleanliness: "green", 
+// 		coordinates: {lat:37.788515, lng:-122.402037}},
+// 		{company: "Andersen Bakery",
+// 		status: "Customers Only", 
+// 		cleanliness: "green", 
+// 		coordinates: {lat: 37.790398, lng:-122.399244}},
+// 		{company: "Public Bathroom", 
+// 		status: "No purchase necessary",
+// 		cleanliness: "red", 
+// 		coordinates: {lat: 37.792730, lng:-122.396781}}, 
+// 		{company: "Public Bathroom", 
+// 		status: "No purchase necessary",
+// 		cleanliness: "red", 
+// 		coordinates: {lat: 37.787574, lng:-122.407545}}
+// 		//second object here
+// 	]
+
+
 
