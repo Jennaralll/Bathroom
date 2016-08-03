@@ -51,7 +51,7 @@ $(document).ready(function() {
 	});
 
 	var mapOptions = {
-		    zoom: 15,
+		    zoom: 16,
 		    center: {lat: 37.789, lng: -122.399}
 	}	
 
