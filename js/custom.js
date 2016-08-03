@@ -1,114 +1,183 @@
-function initMap() {
-	var mapDiv = document.getElementById('map');
-	var map = new google.maps.Map(mapDiv, {
-	    center: {lat: 37.789, lng: -122.399},
-	    zoom: 15
+var bathRoomData;
+
+function readDataAndAppend(data){
+    var rows = [];
+    var cells = data.feed.entry;
+    
+    for (var i = 0; i < cells.length; i++){
+        var rowObj = {};
+        rowObj.timestamp = cells[i].title.$t;
+        var rowCols = cells[i].content.$t.split(',');
+        for (var j = 0; j < rowCols.length; j++){
+            var keyVal = rowCols[j].split(':');
+            rowObj[keyVal[0].trim()] = keyVal[1].trim();
+        }
+        rows.push(rowObj);
+    }
+    
+    console.log(rows);
+
+    bathRoomData = rows;
+} 
+
+
+
+
+$(document).ready(function() {
+
+	  $.ajax({
+	  	url: "https://spreadsheets.google.com/feeds/list/1Gw9qdMt15gnDnab2osAF2CxTBumi-fMSJs04rQxqNss/1/public/basic?alt=json",
+	  	success: function(data){
+	  		readDataAndAppend(data);
+	  	}
+	  })	
+  
+  	//sticking data into the google spreadsheet
+	$("#bathroom-form").submit(function(event){
+		event.preventDefault();
+		var data = $(this).serialize();
+		var dataArray = $(this).serializeArray();
+		console.log(dataArray)
+	
+		$.ajax({
+			url: "https://script.google.com/macros/s/AKfycbwfVi8Ye0M41iotzH9HikJ_fY6_aUnjTH2c8nUCfFmTUO3Vtvkr/exec",
+			type: "POST", 
+			data: data,
+		}).done(function(data) {
+				console.log("success!")
+		})
+
+		addMarkerToMap(dataArray);
 	});
 
-	// map.setMapTypeId(google.maps.MapTypeId.);s
+	var mapOptions = {
+		    zoom: 16,
+		    center: {lat: 37.789, lng: -122.399}
+	}	
 
-    // Function for adding a marker to the page.
-    function addMarker(location) {
-        var marker = new google.maps.Marker({
-            position: location,
-            map: map
-        });
+    map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-        return marker;
+
+  $(".button1").click(function() {
+  	console.log("button1 clicked");
+  	setMapOnAll(null);
+  	setMarkers("Clean");
+  })
+
+
+  $(".button3").click(function() {
+  	console.log("button2 clicked");
+  	setMapOnAll(null);
+  	setMarkers("Dirty"); 	
+  })
+
+  $(".button4").click(function(){
+  	console.log("Show All clicked");
+  	setMapOnAll(map);
+  })
+
+  $(".button5").click(function(){
+  	console.log("Hide All clicked");
+  	setMapOnAll(null);
+  })
+
+});
+
+
+var setMapOnAll= function (map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
     }
+  }
+ 
 
-    function addInfoWindow(marker, message) {
-    	var location = marker;
-		var infowindow = new google.maps.InfoWindow({
-			content: message
-		});
+var markers = new Array();
+var setMarkers = function(color){
 
-		google.maps.event.addListener(marker, "click", function(){
-			infowindow.open(map, marker);
-		});
+	for (var i = 0; i < bathRoomData.length; i++) { 
 
-	}
-
-	var bathRoomData = [
-		{company: "Noodles & Co",
-		status: "private"
-		cleanliness: "unknown",
-		coordinates: {lat: 37.789671, lng: -122.400564}},
-		//second object here
-	]
-
-    // Testing the addMarker function
-    var noodz = new google.maps.LatLng(37.789671, -122.400564);
-    var noodzMarker = addMarker(noodz);
-
-	var peetz = new google.maps.LatLng(37.784618, -122.406799);
-	var peetzMarker = addMarker(peetz);
-
-	var ghir = new google.maps.LatLng(37.788515, -122.402037);
-	var ghirMarker = addMarker(ghir);
-
-	var bread = new google.maps.LatLng(37.790398, -122.399244);
-	var breadMarker = addMarker(bread);
-
-	var booty = new google.maps.LatLng(37.788803, -122.401672);
-	var bootyMarker = addMarker(booty);
-
-	var supburg = new google.maps.LatLng(37.786942, -122.404037);
-	var supburgMarker = addMarker(supburg);
-
-	var oasis = new google.maps.LatLng(37.786861, -122.403697);
-	var oasisMarker = addMarker(oasis);
-
-	var macys = new google.maps.LatLng(37.786959, -122.405973);
-	var macysMarker = addMarker(macys);
-
-	var port = new google.maps.LatLng(37.789791, -122.401145);
-	var portMarker = addMarker(port);
-
-	var oldnavy = new google.maps.LatLng(37.785320, -122.405972);
-	var oldnavyMarker = addMarker(oldnavy);
-
-	var ginto = new google.maps.LatLng(37.788335, -122.402948);
-	var gintoMarker = addMarker(ginto);
-
-	var maz = new google.maps.LatLng(37.787601, -122.404064);
-	var mazMarker = addMarker(maz);
+		if (bathRoomData[i].cleanliness == color) {
+			// if color is equal to green
+				// variable color_status = "7CFC00"
+			// else 
+				// variable color_status = "FF0000";
+			// set pin/icon variable equal to markerimage code with the color_status
+			// make a marker
+			// make an info window
+			var color_status;
+			if (bathRoomData[i].cleanliness == "Clean") {
+				color_status = "7CFC00";
+			} else if (bathRoomData[i].cleanliness == "Dirty") {
+				color_status = "FF0000";
+			}
 
 
-	addInfoWindow(noodzMarker, "Noodles & Company");
-	addInfoWindow(peetzMarker, "Peets Coffee and Company");
-	addInfoWindow(ghirMarker, "Ghirardelli");
-	addInfoWindow(breadMarker, "Andersen Bread");
-	addInfoWindow(bootyMarker, "Boudin Bakery");
-	addInfoWindow(supburgMarker, "Super Duper Burger");
-	addInfoWindow(macysMarker, "Macy's Men");
-	addInfoWindow(portMarker, "Portico Restaurant");
-	addInfoWindow(oldnavyMarker, "Old Navy");
-	addInfoWindow(gintoMarker, "Ginto Izakaya Japanaise");
-	addInfoWindow(mazMarker, "Mazarine Coffee");
-	addInfoWindow(oasisMarker, "Oasis Grill");
-	
-
-}
+			var pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color_status,
+        	new google.maps.Size(21, 34));
 
 
-// first refactor
-// 	put all of the your data into the bathroomData data structure
-// 	putMarkersOnMap: write a method that cycles through the data structure and places markers on the map (follow Hanah's example)
+			var marker = new google.maps.Marker({
+			    position: {lat: parseFloat(bathRoomData[i].lat), lng: parseFloat(bathRoomData[i].lng)},
+			    title: bathRoomData[i].company,
+			    map: map,
+			    icon: pin
+		  	});
+		  	console.log(marker);
 
-// second refactor
-// 	html: have a button that removes all markers (when clicked, it call the remove all markers method)
-// 	jquery: write removeAllMarkers
+			var infowindow = new google.maps.InfoWindow({
+	    		content: bathRoomData[i].status + " " + bathRoomData[i].company
+		  	});
 
-// third refactor
-// 	need to add buttons to the front page somewhere near the map that indicate cleanly status
-// 	in jquery, you are going to have three listeners - one for each button.  If the green button gets clicked, then display all of the markers with the status of clean
-// 		on green button click
-// 			removeAllMarkers()
-// 			putMarkersOnMap(green)
-// 	putMarkersOnMap(status)
-// 		for each marker dictionary/object literal in bathroomData array
-// 			check if the status that is passed in is equal to green
-// 			  add the marker to the map that has the status green
-// 			else if status that is passed in is equal to yellow
-// 				add marker to the map that has the status
+		  	google.maps.event.addListener(marker, 'click', function() {
+	   			// infowindow.open(map, marker);
+	   			infowindow.setContent( this.title );
+	   			infowindow.open( map, this );
+	  		});
+	  		markers.push(marker)
+
+
+		} // closes color if statement
+	} //closing the for loop
+} // closing the function
+
+
+function addMarkerToMap(dataArray) {
+	console.log(dataArray);
+
+
+	var marker = new google.maps.Marker({
+			    position: {lat: parseFloat(dataArray[3].value), lng: parseFloat(dataArray[4].value)},
+			    title: dataArray[0].value,
+			    map: map,
+			    icon: pin
+		  	});
+		  	console.log(marker);
+
+			var color_status;
+			if (dataArray[2].value == "Clean") {
+				color_status = "7CFC00";
+			} else if (dataArray[2].value == "Dirty") {
+				color_status = "FF0000";
+			}
+
+			var pin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + color_status);
+        
+			var infowindow = new google.maps.InfoWindow({
+	    		content: dataArray[1].value + " " + dataArray[0].value
+		  	});
+
+		  	google.maps.event.addListener(marker, 'click', function() {
+	   			// infowindow.open(map, marker);
+	   			infowindow.setContent( this.title );
+	   			infowindow.open( map, this );
+	  		});
+	  		markers.push(marker)
+	//work through the data ( which is an array of objects)
+	// take out the information you need
+	// put in code to create a new marker 
+} 
+
+
+
+var map;
+
