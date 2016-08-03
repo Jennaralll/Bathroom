@@ -24,6 +24,7 @@
 	width: 100%;
 	height: 600px;
     margin-top: 0px;
+    margin-bottom: 10px;
 }
 
 h1 { 
@@ -67,7 +68,7 @@ p {
 .button1 {
     background-color: white;
     color: black;
-    border: 4px solid;
+    border: 4px solid #82968C;
 }
 
 .button1:hover {
@@ -79,7 +80,7 @@ p {
 .button3 {
     background-color: white;
     color: black;
-    border: 4px solid;
+    border: 4px solid #82968C;
 }
 
 .button3:hover {
@@ -90,7 +91,7 @@ p {
 .button4 {
     background-color: white;
     color: black;
-    border: 4px solid;
+    border: 4px solid #82968C;
 }
 
 .button4:hover {
@@ -100,7 +101,7 @@ p {
 .button5 {
     background-color: white;
     color: black;
-    border: 4px solid;
+    border: 4px solid #82968C;
 }
 
 .button5:hover {
@@ -124,16 +125,12 @@ p {
 }*/
 
 .addabathroom {
-    /*border: 18px solid white;*/
     color: #574B60;
     font-size: 45px;
     font-family: Pacifico;
     margin-top: 60px;
     padding: 28px;
-
 }
-
-
 
 .submit {
     margin: 10px;
@@ -150,10 +147,10 @@ p {
 
 .connect{
     font-family: "Rubik";
-    margin-top: 100px;
+    margin-top: 44px;
     color: black;
-    font-size: 25px;
-    padding-top: 26px;
+    font-size: 20px;
+    padding-top: 20px;
     padding-left: 20px;
     margin-bottom: 0px;
 }
@@ -164,59 +161,59 @@ p {
     font-size: 45px;
     font-family: Pacifico;
     margin-top: 60px;
-<<<<<<< HEAD
-   /* border: 18px double white;*/
+    padding-bottom: 0px;
 }
 
 .aboutusinfo {
     padding: 10px;
     margin-bottom: 100px;
-    color: #574B60;
-/*    border: 10px solid white;
-*/  font-size: 25px;
-    margin-top: 50px;
+    color: black;
+    font-size: 22px;
     font-family: ;
 }
 
-=======
-    padding-bottom: 25px;
-}
 
 .facebook {
-    margin-top: 100px;
+    margin-top: 40px;
     color: black;
     font-size: 17px;
     padding-left: 20px;
-    margin-bottom: 0px;
+    margin-bottom: 15px;
     display: block;
-    height: 35%;
-    width: 35%;
+    height: 29%;
+    width: 29%;
 }
 
 .twitter {
-    margin-top: 100px;
+    margin-top: 40px;
     color: black;
     font-size: 17px;
     padding-left: 20px;
-    margin-bottom: 0px;
+    margin-bottom: 15px;
     display: block;
-    height: 36%;
-    width: 36%;
+    height: 30%;
+    width: 30%;
 }
 
 .instagram {
-    margin-top: 100px;
+    margin-top: 40px;
     color: black;
     font-size: 17px;
     padding-left: 20px;
-    margin-bottom: 0px;
+    margin-bottom: 15px;
     display: block;
-    height: 36%;
-    width: 36%;
+    height: 30%;
+    width: 30%;
 }
 
 .footcontainer {
+    padding-top: 0px;
     padding-bottom: 15px;
-    background-color: #CEF0FF;
+    background-color: #FFFFFF;
+    border-top: thick solid #82968C
 }
->>>>>>> 796752a6e0d2d8387bbe91035720f35ed5c6e641
+
+.line {
+    border-right: thick solid #82968C;
+}
+
