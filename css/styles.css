@@ -149,9 +149,11 @@ p {
 }*/
 
 .connect{
+    font-family: "Rubik";
     margin-top: 100px;
     color: black;
-    font-size: 17px;
+    font-size: 25px;
+    padding-top: 26px;
     padding-left: 20px;
     margin-bottom: 0px;
 }
@@ -162,6 +164,7 @@ p {
     font-size: 45px;
     font-family: Pacifico;
     margin-top: 60px;
+<<<<<<< HEAD
    /* border: 18px double white;*/
 }
 
@@ -175,3 +178,45 @@ p {
     font-family: ;
 }
 
+=======
+    padding-bottom: 25px;
+}
+
+.facebook {
+    margin-top: 100px;
+    color: black;
+    font-size: 17px;
+    padding-left: 20px;
+    margin-bottom: 0px;
+    display: block;
+    height: 35%;
+    width: 35%;
+}
+
+.twitter {
+    margin-top: 100px;
+    color: black;
+    font-size: 17px;
+    padding-left: 20px;
+    margin-bottom: 0px;
+    display: block;
+    height: 36%;
+    width: 36%;
+}
+
+.instagram {
+    margin-top: 100px;
+    color: black;
+    font-size: 17px;
+    padding-left: 20px;
+    margin-bottom: 0px;
+    display: block;
+    height: 36%;
+    width: 36%;
+}
+
+.footcontainer {
+    padding-bottom: 15px;
+    background-color: #CEF0FF;
+}
+>>>>>>> 796752a6e0d2d8387bbe91035720f35ed5c6e641
